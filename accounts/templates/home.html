@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Homepage</title>
+    {% csrf_token %}
+  </head>
+  <body>
+    <center>
+      <h1>Homepage</h1>
+
+      <span> Hello <b>{{ users.username }}</b> </span>
+      <p>Your email is <b> {{ users.email }}</b></p>
+      <span><p>{{users.first_name}}</p></span>
+     link: {{ users.profile_pic }}
+     <br><br><br>
+      <!-- assuming that `users` is the context variable containing the user object -->
+
+        {% if users.profile_pic %}
+        <img src="{{ users.profile_pic.url }}" alt="Profile Picture">
+   <img src="media/profile_pics/PicsArt_12-21-03.59.52.jpg" alt="">     
+        {% else %}
+        <p>No profile picture uploaded.</p>
+        {% endif %}
+
+      <br />
+      <br /><br />
+
+      {% if user.is_authenticated %} {% csrf_token %}
+
+      <a href="{% url 'logout' %}">Logout</a>
+
+      {% else %} {% csrf_token %}
+
+      <a href="{% url 'login' %}">Login</a>
+
+      {%endif%}
+    </center>
+  </body>
+</html>

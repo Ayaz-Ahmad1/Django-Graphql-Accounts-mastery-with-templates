@@ -1,0 +1,192 @@
+# query allusers{
+#   users{
+#     edges {
+#       node {
+#         id,
+#         username,
+#         email,
+#         isActive,
+#         archived,
+#         verified,
+#         secondaryEmail
+#       }
+#     }
+#   }
+# }
+
+#______________________________________________________________
+
+# query myuser{
+# me{
+#   username 
+# }  
+# }
+
+
+#______________________________________________________________
+
+# mutation createuser{
+#   register(
+#     email:"mail@mails.com",
+#     username:"admin1",
+#     password1:"#asdfghjkl",
+#     password2:"#asdfghjkl"   
+#   )
+#   {
+#     success,
+#     errors,
+#     token,
+#     refreshToken
+#   }
+# }
+
+
+#_______________________________________________________________
+
+# mutation verifyAccount{
+#   verifyAccount(token:"eyJ1c2VybmFtZSI6ImFkbWluMiIsImFjdGlvbiI6ImFjdGl2YXRpb24ifQ:1pooAH:5Ne52cQyz6MlD2uyX7UOpal8CHund5zhRoY_-o4pwCU")
+#   {
+#     success,
+#     errors
+#   }
+# }
+
+#_____________________________________________________________
+
+# mutation resendActivationEmail{ 
+#   resendActivationEmail(email:"mail@gmail.com"){
+#     errors,
+#     success
+#   }
+# }
+
+#_____________________________________________________________
+
+# mutation deleteUser{
+#   deleteAccount(password:"123"){    
+#     errors,
+#     success  
+#   }
+# }
+
+#_____________________________________________________________
+
+# mutation{
+#   sendPasswordResetEmail(email:"mail@mail.com"){
+#     errors,
+#     success
+#   }
+# }
+
+
+#__________________________________________________________
+
+# mutation{
+#   passwordReset(token:"eyJ1c2VybmFtZSI6ImFkbWluIiwiYWN0aW9uIjoicGFzc3dvcmRfcmVzZXQifQ:1poW6m:BAxcm4Qyp8NBYFBd_9gfeC9x5KMWeaeQrvKDyBjanto",
+#   newPassword1:"#asdfghjkl",
+#   newPassword2:"#asdfghjkl")
+#   {
+#     success,
+#     errors
+#   }
+# }
+#__________________________________________________________
+
+# mutation{
+#   archivedAccount(password:"#asdfghjkl"){
+#     errors,
+#     success
+#   }
+# }
+
+
+#========================================================
+
+# query all{
+#   users{
+#     edges{
+#       node{
+        
+#         username
+#         email
+#        firstName
+#         profilePic
+#         __typename
+      
+#       }
+#     }
+#   }
+# }
+
+
+
+# query me
+# {
+#   me{
+#     username
+#     email
+#     profilePic
+#     __typename
+#   }
+# }
+
+#===========================================================================================
+
+# query selective{
+  
+#   admin: users(username:"admin"){
+#     edges{
+#       node{
+#         username
+#         email
+#        firstName
+#         profilePic    
+#       }
+#     }
+#   }
+  
+#   admin2:   users(username:"admin2"){
+#     edges{
+#       node{
+#         username
+#         email
+#        firstName
+#         profilePic
+#       }
+#     }
+#   }
+  
+# }
+
+
+#=========================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
