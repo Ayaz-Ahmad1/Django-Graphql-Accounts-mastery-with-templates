@@ -1,38 +1,121 @@
-# query allusers{
-#   users{
-#     edges {
-#       node {
-#         id,
-#         username,
-#         email,
-#         isActive,
-#         archived,
-#         verified,
-#         secondaryEmail
-#       }
-#     }
+#==========================================Fragment Comparison================================
+query comparison{
+  leftComparison: user(id:1) {
+    ...comparisonFields
+  }
+  rightComparison: user(id: 2) {
+    ...comparisonFields
+  }
+}
+
+fragment comparisonFields on UserType {
+  username
+  isActive
+  email
+  firstName
+  lastName
+  profilePic
+
+}
+#===================================================================
+
+query searchByUsernameAndEmail{
+  search(text: "mails") {
+    __typename
+    ... on UserType {
+      username
+      email
+    
+    }
+   
+  }
+}
+#===========================================inline function================================================
+
+query listAllSelectiveUsers {
+  user(isActive: false) {
+    __typename
+    username
+    ... on UserType {
+      __typename
+      isActive
+    }
+    
+  }
+}
+#=======================================================================
+# mutation mu{
+#   verifyAccount(token:"")
+# }
+
+#================================================ Aliases =====================================
+# with aliases we can rename the rename the result of a field to anything we want.
+
+query user{
+  first : user(id:1){
+    username
+    isActive
+    firstName
+    lastName
+  }
+    last : user(username:"admin"){
+    username
+    isActive
+    firstName
+    lastName
+  }
+  active : user(isActive:true){
+		email
+    username
+    firstName
+    isActive
+  } 
+  inactive : user(isActive:false){
+		email
+    username
+    firstName
+    isActive
+  }
+}
+
+
+
+# mutation resend{
+#   resendActivationEmail(email:"mail@mail.com"){
+#     success,
+#     errors
 #   }
 # }
 
-#______________________________________________________________
 
-# query myuser{
-# me{
-#   username 
-# }  
+# mutation activate{
+#   verifyAccount(token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1haWxAbWFpbC5jb20iLCJleHAiOjE2ODI1MzgwODYsIm9yaWdJYXQiOjE2ODI1Mzc3ODZ9.us8bYHid_I4C1Hus6bEQ2FejKFlN8eYXWkeFGl5L7hY")
+#   {
+#     success,
+#     errors
+#   }
+# }
+  
+# mutation verify{
+#   verifyAccount(token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1haWxAbWFpbC5jb20iLCJleHAiOjE2ODI1MzgwODYsIm9yaWdJYXQiOjE2ODI1Mzc3ODZ9.us8bYHid_I4C1Hus6bEQ2FejKFlN8eYXWkeFGl5L7hY")
+# {
+#   success,
+#   errors
+# }
 # }
 
 
-#______________________________________________________________
+# mutation Login{
+#   login(email: "mail@mail.com", password: "123") {
+#     success
+#     token
+#     refreshToken
+#   }
+# }
 
-# mutation createuser{
-#   register(
-#     email:"mail@mails.com",
-#     username:"admin1",
-#     password1:"#asdfghjkl",
-#     password2:"#asdfghjkl"   
-#   )
-#   {
+
+# mutation login{
+#   login(email:"mail@mail.com", password:"123"){
 #     success,
 #     errors,
 #     token,
@@ -41,152 +124,52 @@
 # }
 
 
-#_______________________________________________________________
-
-# mutation verifyAccount{
-#   verifyAccount(token:"eyJ1c2VybmFtZSI6ImFkbWluMiIsImFjdGlvbiI6ImFjdGl2YXRpb24ifQ:1pooAH:5Ne52cQyz6MlD2uyX7UOpal8CHund5zhRoY_-o4pwCU")
-#   {
-#     success,
-#     errors
-#   }
-# }
-
-#_____________________________________________________________
-
-# mutation resendActivationEmail{ 
-#   resendActivationEmail(email:"mail@gmail.com"){
-#     errors,
-#     success
-#   }
-# }
-
-#_____________________________________________________________
-
-# mutation deleteUser{
-#   deleteAccount(password:"123"){    
-#     errors,
-#     success  
-#   }
-# }
-
-#_____________________________________________________________
-
-# mutation{
-#   sendPasswordResetEmail(email:"mail@mail.com"){
-#     errors,
-#     success
-#   }
-# }
-
-
-#__________________________________________________________
-
-# mutation{
-#   passwordReset(token:"eyJ1c2VybmFtZSI6ImFkbWluIiwiYWN0aW9uIjoicGFzc3dvcmRfcmVzZXQifQ:1poW6m:BAxcm4Qyp8NBYFBd_9gfeC9x5KMWeaeQrvKDyBjanto",
-#   newPassword1:"#asdfghjkl",
-#   newPassword2:"#asdfghjkl")
-#   {
-#     success,
-#     errors
-#   }
-# }
-#__________________________________________________________
-
-# mutation{
-#   archivedAccount(password:"#asdfghjkl"){
-#     errors,
-#     success
-#   }
-# }
-
-
-#========================================================
-
-# query all{
-#   users{
-#     edges{
-#       node{
-        
-#         username
-#         email
-#        firstName
-#         profilePic
-#         __typename
-      
-#       }
-#     }
-#   }
-# }
+mutation vToken{
+  tokenAuth(email:"notayax@gmail.com", password:"123"){
+    success,
+    errors,
+    token,
+    refreshToken
+  }
+}
 
 
 
-# query me
-# {
-#   me{
-#     username
-#     email
-#     profilePic
-#     __typename
-#   }
-# }
-
-#===========================================================================================
-
-# query selective{
-  
-#   admin: users(username:"admin"){
-#     edges{
-#       node{
-#         username
-#         email
-#        firstName
-#         profilePic    
-#       }
-#     }
-#   }
-  
-#   admin2:   users(username:"admin2"){
-#     edges{
-#       node{
-#         username
-#         email
-#        firstName
-#         profilePic
-#       }
-#     }
-#   }
-  
-# }
-
-
-#=========================================================================================
+mutation deleteuser{
+  deleteAccount(password:"123"){
+    errors,
+    success
+  }
+}
 
 
 
+mutation createuser{
+  register(email:"notayax@outlook.com", username:"notayax", password1:"#Admin123", password2:"#Admin123"){
+    errors,
+    success,
+    token,
+    refreshToken
+  }
+}
+
+
+mutation activateuser{
+  verifyAccount(token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5vdGF5YXhAZ21haWwuY29tIiwiZXhwIjoxNjgzMDM4ODYxLCJvcmlnSWF0IjoxNjgzMDM4NTYxfQ.O84Mx8UV8LfuGA122lHqAbP6De-DwuOJeAutBQnE9PA"){
+    success,
+    errors,
+    
+  }
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+query getuser{
+  users{
+    edges{
+      node{
+    id
+    username
+    profilePic
+  }
+    }}}
